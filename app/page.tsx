@@ -1,10 +1,11 @@
 import MaxWidthWrapper from "@/components/global/max-width-wrapper"
+import Title from "@/components/ui/title"
 
 export default function Home() {
   return (
     <MaxWidthWrapper>
       <div className="py-24">
-        <h1 className="text-4xl sm:text-5xl font-bold">Hello There</h1>
+        <Title>Hello There</Title>
       </div>
     </MaxWidthWrapper>
   )

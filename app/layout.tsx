@@ -1,22 +1,24 @@
 import type { Metadata } from "next"
+import { Toaster } from "@/components/ui/sonner"
 import { Inter } from "next/font/google"
 import { cn } from "@/lib/utils"
+
+import Providers from "@/components/global/providers"
 import Footer from "@/components/footer/footer"
 import Navbar from "@/components/navbar/navbar"
+
 import "./globals.css"
-import { Toaster } from "@/components/ui/sonner"
-import Providers from "@/components/global/providers"
 
 const inter = Inter({ subsets: ["latin"] })
 
-//TODO:
+// TODO:
 // Change the Metadata
 export const metadata: Metadata = {
   title: "App",
   description: "app",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
