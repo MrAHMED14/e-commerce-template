@@ -8,23 +8,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { LogOutIcon, MenuIcon, UserCircle2Icon } from "lucide-react"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import {
+  Loader2Icon,
+  LogOutIcon,
+  MenuIcon,
+  UserCircle2Icon,
+} from "lucide-react"
+import { buttonVariants } from "../ui/button"
+import { useTransition } from "react"
 import { usePathname } from "next/navigation"
-import { Button } from "../ui/button"
+import { logout } from "@/lib/actions/auth/action"
+import { User } from "lucia"
 import { cn } from "@/lib/utils"
 
 import ThemeSwitcher from "../global/theme-switcher"
 import Search from "../filter/search"
-import Link from "next/link"
 import Image from "next/image"
+import Link from "next/link"
 
 interface MenuItemsProps {
   className?: string
+  user: User | null
 }
 
-export default function MenuItems({ className }: MenuItemsProps) {
-  const user = true
+export default function MenuItems({ className, user }: MenuItemsProps) {
   return (
     <div className={cn("flex items-center justify-center gap-4", className)}>
       {/* Desktop Menu */}
@@ -35,7 +50,7 @@ export default function MenuItems({ className }: MenuItemsProps) {
 
       {user ? (
         // Avatar Component
-        <UserAvatar />
+        <UserAvatar username={user.displayName} imgUrl={user.avatarUrl} />
       ) : (
         // Auth Component
         <AuthButton className="hidden min-[375px]:flex" />
@@ -48,7 +63,11 @@ export default function MenuItems({ className }: MenuItemsProps) {
             <MenuIcon className="w-6 h-6" />
           </SheetTrigger>
           <SheetContent className="flex flex-col max-[375px]:justify-between">
-            <Search className="sm:hidden flex mt-3" />
+            <SheetHeader>
+              <SheetTitle className="text-start">Main Menu</SheetTitle>
+              <SheetDescription></SheetDescription>
+              <Search className="sm:hidden flex" />
+            </SheetHeader>
             <Menu className="flex flex-col items-start gap-y-5" />
             <AuthButton className="min-[375px]:hidden flex" />
           </SheetContent>
@@ -58,9 +77,9 @@ export default function MenuItems({ className }: MenuItemsProps) {
   )
 }
 
-export function Menu({ className }: MenuItemsProps) {
+export function Menu({ className }: { className: string }) {
   const pathname = usePathname()
-
+  const userRole = null
   return (
     <div className={cn(className)}>
       <Link
@@ -91,83 +110,97 @@ export function Menu({ className }: MenuItemsProps) {
             : "text-muted-foreground"
         )}
       >
-        Cart ({0})
+        <p className="flex items-center gap-1">
+          Cart
+          <span className="flex items-start justify-start w-4 h-5 text-[9px]">
+            10
+          </span>
+        </p>
       </Link>
-      <Link
-        href={"/orders"}
-        className={cn(
-          pathname === "/orders"
-            ? "text-stone-950 dark:text-white font-semibold"
-            : "text-muted-foreground"
-        )}
-      >
-        Orders
-      </Link>
-      <Link
-        href={"/add-product"}
-        className={cn(
-          pathname === "/add-product"
-            ? "text-stone-950 dark:text-white font-semibold"
-            : "text-muted-foreground"
-        )}
-      >
-        Add Product
-      </Link>
+      {userRole && (
+        <Link
+          href={"/Dashboard"}
+          className={cn(
+            pathname === "/Dashboard"
+              ? "text-stone-950 dark:text-white font-semibold"
+              : "text-muted-foreground"
+          )}
+        >
+          Dashboard
+        </Link>
+      )}
     </div>
   )
 }
 
-export function AuthButton({ className }: MenuItemsProps) {
+export function AuthButton({ className }: { className: string }) {
   return (
     // Auth Component
     <div className={cn("flex gap-3", className)}>
-      <Button
-        variant="ghost"
-        className="font-bold hover:bg-muted-foreground/40"
+      <Link
+        href="/login"
+        className={cn(
+          buttonVariants({
+            variant: "ghost",
+            className: "font-bold hover:bg-muted-foreground/40",
+          })
+        )}
       >
         Login
-      </Button>
-      <Button className="font-bold">Sign in</Button>
+      </Link>
+      <Link
+        href="/sign-up"
+        className={cn(buttonVariants({ className: "font-bold" }))}
+      >
+        Sign up
+      </Link>
     </div>
   )
 }
 
-export function UserAvatar({}: MenuItemsProps) {
-  const user = true
+interface UserAvatarProps {
+  username: string
+  imgUrl?: string | null
+}
+export function UserAvatar({ username, imgUrl }: UserAvatarProps) {
+  const [isPending, startTransition] = useTransition()
+
+  async function handleLogout() {
+    startTransition(async () => {
+      await logout()
+    })
+  }
   return (
-    <>
-      {user && (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div className="w-9 h-9 aspect-square object-center">
-              {false ? (
-                <Image
-                  src={""}
-                  alt={"user_img"}
-                  width={500}
-                  height={500}
-                  className="object-cover w-full h-full rounded-full"
-                />
-              ) : (
-                <div className="dark:bg-white bg-stone-950/90 w-9 h-9 rounded-full aspect-square object-center flex items-center justify-center">
-                  <UserCircle2Icon className="dark:text-stone-950/70 text-white/90" />
-                </div>
-              )}
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <div className="w-9 h-9 aspect-square object-center">
+          {imgUrl ? (
+            <Image
+              src={imgUrl}
+              alt={"user_img"}
+              width={500}
+              height={500}
+              className="object-cover w-full h-full rounded-full"
+            />
+          ) : (
+            <div className="dark:bg-white bg-stone-950/90 w-9 h-9 rounded-full aspect-square object-center flex items-center justify-center">
+              <UserCircle2Icon className="dark:text-stone-950/70 text-white/90" />
             </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-7">
-            <DropdownMenuLabel>Username</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
-              <LogOutIcon size={18} />
-              <span>Logout</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
-    </>
+          )}
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="mr-7">
+        <DropdownMenuLabel>{username ?? "Username"}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
+        <DropdownMenuItem
+          className="cursor-pointer flex items-center gap-2"
+          onClick={handleLogout}
+        >
+          {isPending ? <Loader2Icon size={18} /> : <LogOutIcon size={18} />}
+          <span>Logout</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
