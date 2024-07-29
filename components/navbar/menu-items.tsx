@@ -60,12 +60,15 @@ export default function MenuItems({ className, user }: MenuItemsProps) {
       <div className="min-[1140px]:hidden flex">
         <Sheet>
           <SheetTrigger>
+            <h3 className="sr-only">Main Menu</h3>
             <MenuIcon className="w-6 h-6" />
           </SheetTrigger>
           <SheetContent className="flex flex-col max-[375px]:justify-between">
             <SheetHeader>
               <SheetTitle className="text-start">Main Menu</SheetTitle>
-              <SheetDescription></SheetDescription>
+              <SheetDescription>
+                <h3 className="sr-only">this is the main menu</h3>
+              </SheetDescription>
               <Search className="sm:hidden flex" />
             </SheetHeader>
             <Menu className="flex flex-col items-start gap-y-5" />

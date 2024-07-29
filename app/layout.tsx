@@ -32,7 +32,7 @@ export default async function RootLayout({
         <Providers>
           <main className="flex flex-col h-full min-h-screen">
             <Navbar />
-            <div className="flex-grow flex-1">{children}</div>
+            <div className="flex-grow flex-1 mt-14">{children}</div>
             <Footer />
           </main>
           <Toaster position="top-center" richColors />

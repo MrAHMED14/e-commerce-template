@@ -11,7 +11,7 @@ export default async function Navbar({}: NavbarProps) {
   const { user } = await validateRequest()
 
   return (
-    <nav className="w-full bg-white dark:bg-stone-950 sticky top-0 z-50 pt-1">
+    <nav className="w-full bg-white dark:bg-stone-950 fixed h-14 top-0 z-50 pt-1">
       <MaxWidthWrapper>
         <div className="w-full flex items-center justify-between mx-auto my-2">
           {/* Left */}
