@@ -23,8 +23,8 @@ model User {
   addresses Address[]
   sessions  Session[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   @@map("users")
 }
@@ -40,10 +40,11 @@ model Session {
 }
 
 model Address {
-  id        String   @id @default(uuid())
-  street    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id     String @id @default(uuid())
+  street String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -55,10 +56,11 @@ model Address {
 }
 
 model Order {
-  id          String   @id @default(uuid())
-  isCompleted Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String  @id @default(uuid())
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   addressId String
   address   Address @relation(fields: [addressId], references: [id])
@@ -73,10 +75,11 @@ model Order {
 }
 
 model OrderItem {
-  id        String   @id @default(uuid())
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id       String @id @default(uuid())
+  quantity Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   orderId String
   order   Order  @relation(fields: [orderId], references: [id])
@@ -91,9 +94,10 @@ model OrderItem {
 }
 
 model Cart {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id String @id @default(uuid())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -104,10 +108,11 @@ model Cart {
 }
 
 model CartItem {
-  id        String   @id @default(uuid())
-  quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id       String @id @default(uuid())
+  quantity Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   cartId String
   cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
@@ -128,8 +133,9 @@ model Product {
   price       Float
   slug        String   @unique
   img         String[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   cartItems  CartItem[]
   orderItems OrderItem[]
@@ -142,10 +148,11 @@ model Product {
 }
 
 model Subcategory {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   products Product[]
 
@@ -157,10 +164,11 @@ model Subcategory {
 }
 
 model MainCategory {
-  id        String   @id @default(uuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id   String @id @default(uuid())
+  name String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   subcategories Subcategory[]
 
