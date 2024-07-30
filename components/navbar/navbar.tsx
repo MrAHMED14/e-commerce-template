@@ -4,11 +4,13 @@ import MaxWidthWrapper from "@/components/global/max-width-wrapper"
 import MenuItems from "@/components/navbar/menu-items"
 import Search from "@/components/filter/search"
 import Link from "next/link"
+import { getCart } from "@/lib/actions/cart/lib"
 
 interface NavbarProps {}
 
 export default async function Navbar({}: NavbarProps) {
   const { user } = await validateRequest()
+  const cart = await getCart()
 
   return (
     <nav className="w-full bg-white dark:bg-stone-950 fixed h-14 top-0 z-50 pt-1">
@@ -24,7 +26,7 @@ export default async function Navbar({}: NavbarProps) {
 
           {/* Right */}
           <div className="w-fit">
-            <MenuItems user={user} />
+            <MenuItems user={user} cartSize={cart?.size ?? 0} />
           </div>
         </div>
       </MaxWidthWrapper>

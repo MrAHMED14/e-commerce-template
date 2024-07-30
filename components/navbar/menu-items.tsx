@@ -37,13 +37,21 @@ import Link from "next/link"
 interface MenuItemsProps {
   className?: string
   user: User | null
+  cartSize: number
 }
 
-export default function MenuItems({ className, user }: MenuItemsProps) {
+export default function MenuItems({
+  className,
+  user,
+  cartSize,
+}: MenuItemsProps) {
   return (
     <div className={cn("flex items-center justify-center gap-4", className)}>
       {/* Desktop Menu */}
-      <Menu className="hidden min-[1140px]:flex items-center gap-8" />
+      <Menu
+        className="hidden min-[1140px]:flex items-center gap-8"
+        cartSize={cartSize}
+      />
 
       {/* Light / dark mode toggle */}
       <ThemeSwitcher />
@@ -63,7 +71,12 @@ export default function MenuItems({ className, user }: MenuItemsProps) {
             <h3 className="sr-only">Main Menu</h3>
             <MenuIcon className="w-6 h-6" />
           </SheetTrigger>
-          <SheetContent className="flex flex-col max-[375px]:justify-between">
+          <SheetContent
+            className={cn(
+              "flex flex-col",
+              !user && "max-[375px]:justify-between"
+            )}
+          >
             <SheetHeader>
               <SheetTitle className="text-start">Main Menu</SheetTitle>
               <SheetDescription>
@@ -71,8 +84,11 @@ export default function MenuItems({ className, user }: MenuItemsProps) {
               </SheetDescription>
               <Search className="sm:hidden flex" />
             </SheetHeader>
-            <Menu className="flex flex-col items-start gap-y-5" />
-            <AuthButton className="min-[375px]:hidden flex" />
+            <Menu
+              className="flex flex-col items-start gap-y-5"
+              cartSize={cartSize}
+            />
+            {!user && <AuthButton className="min-[375px]:hidden flex" />}
           </SheetContent>
         </Sheet>
       </div>
@@ -80,7 +96,13 @@ export default function MenuItems({ className, user }: MenuItemsProps) {
   )
 }
 
-export function Menu({ className }: { className: string }) {
+export function Menu({
+  className,
+  cartSize,
+}: {
+  className: string
+  cartSize: number
+}) {
   const pathname = usePathname()
   const userRole = null
   return (
@@ -95,6 +117,7 @@ export function Menu({ className }: { className: string }) {
       >
         Home
       </Link>
+
       <Link
         href={"/shop"}
         className={cn(
@@ -105,6 +128,7 @@ export function Menu({ className }: { className: string }) {
       >
         Shop
       </Link>
+
       <Link
         href={"/shop/cart"}
         className={cn(
@@ -115,23 +139,33 @@ export function Menu({ className }: { className: string }) {
       >
         <p className="flex items-center gap-1">
           Cart
-          <span className="flex items-start justify-start w-4 h-5 text-[9px]">
-            10
+          <span className="flex items-start justify-start h-5 text-[9px]">
+            {cartSize}
           </span>
         </p>
       </Link>
-      {userRole && (
-        <Link
-          href={"/Dashboard"}
-          className={cn(
-            pathname === "/Dashboard"
-              ? "text-stone-950 dark:text-white font-semibold"
-              : "text-muted-foreground"
-          )}
-        >
-          Dashboard
-        </Link>
-      )}
+
+      <Link
+        href={"/my-orders"}
+        className={cn(
+          pathname === "/my-orders"
+            ? "text-stone-950 dark:text-white font-semibold"
+            : "text-muted-foreground"
+        )}
+      >
+        My Orders
+      </Link>
+
+      <Link
+        href={"/dashboard"}
+        className={cn(
+          pathname === "/dashboard"
+            ? "text-stone-950 dark:text-white font-semibold"
+            : "text-muted-foreground"
+        )}
+      >
+        Dashboard
+      </Link>
     </div>
   )
 }

@@ -9,8 +9,14 @@ import { buttonVariants } from "@/components/ui/button"
 import { Suspense } from "react"
 
 import FilterOptions from "@/components/filter/filter-options"
+import { MainCategory, Subcategory } from "@prisma/client"
 
-export function MobileFilter() {
+interface MobileFilterProps {
+  categories?: MainCategory[]
+  subCategories?: Subcategory[]
+}
+
+export function MobileFilter({ categories, subCategories }: MobileFilterProps) {
   return (
     <div className="flex lg:hidden">
       <Sheet>
@@ -21,7 +27,10 @@ export function MobileFilter() {
           <SheetHeader>
             <SheetTitle className="text-left">Filter</SheetTitle>
             <Suspense>
-              <FilterOptions />
+              <FilterOptions
+                categories={categories}
+                subCategories={subCategories}
+              />
             </Suspense>
           </SheetHeader>
         </SheetContent>

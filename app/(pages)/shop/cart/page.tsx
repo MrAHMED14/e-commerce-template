@@ -1,3 +1,4 @@
+import CartList from "@/components/cart/cart-list"
 import MaxWidthWrapper from "@/components/global/max-width-wrapper"
 import Title from "@/components/ui/title"
 
@@ -7,7 +8,9 @@ export default function CartPage({}: CartPageProps) {
   return (
     <MaxWidthWrapper>
       <div className="py-24">
-        <Title>Cart page</Title>
+        <Title>Shopping Cart</Title>
+
+        <CartList />
       </div>
     </MaxWidthWrapper>
   )

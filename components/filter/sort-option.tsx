@@ -5,8 +5,10 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useCallback, useState, useTransition } from "react"
 import { ChevronDownIcon, Loader2Icon } from "lucide-react"
-import { Button } from "../ui/button"
+import { useRouter, useSearchParams } from "next/navigation"
+import { Button, buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 
 interface SortOptionProps {}
@@ -18,13 +20,37 @@ const SORT_OPTIONS = [
 ] as const
 
 export default function SortOption({}: SortOptionProps) {
-  const isPending = false
+  const router = useRouter()
+  const searchParams = useSearchParams()!
+  const [isPending, startTransition] = useTransition()
+
+  const [filter, setFilter] = useState({
+    sort: searchParams.get("sort") || "",
+  })
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams)
+      if (!value.length) {
+        params.delete(name)
+      } else {
+        params.set(name, value)
+      }
+      return params.toString()
+    },
+    [searchParams]
+  )
+
   return (
     <div className="flex items-center">
       <DropdownMenu>
         <DropdownMenuTrigger
           disabled={isPending}
-          className="flex items-center justify-center text-sm font-medium"
+          className={buttonVariants({
+            className:
+              "flex items-center justify-center text-sm font-medium hover:bg-muted-foreground/40",
+            variant: "ghost",
+          })}
         >
           Sort
           {!isPending && (
@@ -41,21 +67,21 @@ export default function SortOption({}: SortOptionProps) {
               variant="ghost"
               key={option.name}
               className={cn("text-left w-full block px-4 py-2 text-sm", {
-                //"text-gray-900 bg-gray-100": option.value === filter.sort,
-                //"text-gray-500": option.value !== filter.sort,
+                "text-gray-900 bg-gray-100": option.value === filter.sort,
+                "text-gray-500": option.value !== filter.sort,
               })}
-              /*onClick={() => {
-            setFilter((prev) => ({
-              ...prev,
-              sort: option.value,
-            }))
+              onClick={() => {
+                setFilter((prev) => ({
+                  ...prev,
+                  sort: option.value,
+                }))
 
-            startTransition(() => {
-              router.push(
-                `/shop?${createQueryString("sort", option.value)}`
-              )
-            })
-          }}*/
+                startTransition(() => {
+                  router.push(
+                    `/shop?${createQueryString("sort", option.value)}`
+                  )
+                })
+              }}
             >
               {option.name}
             </Button>
