@@ -8,6 +8,7 @@ import { isRedirectError } from "next/dist/client/components/redirect"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { lucia } from "../auth"
+import { mergeAnonymousCartIntoUserCart } from "../../cart/lib"
 
 export async function signUp(
   credentials: SignUpValues
@@ -64,6 +65,7 @@ export async function signUp(
       },
     })
 
+    await mergeAnonymousCartIntoUserCart(userId)
     const session = await lucia.createSession(userId, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
     cookies().set(

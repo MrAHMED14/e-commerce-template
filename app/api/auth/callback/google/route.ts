@@ -5,6 +5,7 @@ import { OAuth2RequestError } from "arctic"
 import { generateIdFromEntropySize } from "lucia"
 import { cookies } from "next/headers"
 import { NextRequest } from "next/server"
+import { mergeAnonymousCartIntoUserCart } from "@/lib/actions/cart/lib"
 
 export async function GET(req: NextRequest) {
   const code = req.nextUrl.searchParams.get("code")
@@ -44,6 +45,8 @@ export async function GET(req: NextRequest) {
     })
 
     if (existingUser) {
+      await mergeAnonymousCartIntoUserCart(existingUser.id)
+
       const session = await lucia.createSession(existingUser.id, {})
       const sessionCookie = lucia.createSessionCookie(session.id)
       cookies().set(
@@ -91,6 +94,8 @@ export async function GET(req: NextRequest) {
         },
       })
     }
+
+    await mergeAnonymousCartIntoUserCart(userId)
 
     const session = await lucia.createSession(userId, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
