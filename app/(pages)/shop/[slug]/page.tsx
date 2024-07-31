@@ -20,7 +20,7 @@ export default async function ProductDetailsPage({
 
   const { category, subcategory } = await getProductPath(product.subcategoryId)
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="max-w-7xl">
       <div className="py-24">
         <ProductPath category={category} subcategory={subcategory} />
 

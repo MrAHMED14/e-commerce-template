@@ -3,7 +3,7 @@ import Title from "@/components/ui/title"
 
 export default function Home() {
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="max-w-7xl">
       <div className="py-24">
         <Title>Hello There</Title>
       </div>

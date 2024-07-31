@@ -93,6 +93,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     <MaxWidthWrapper>
       <div className="py-24">
         <Title>Our Products</Title>
+        <p className="text-sm text-muted-foreground">
+          Explore our wide selection of valuable products. Your satisfaction is
+          our top priority.
+        </p>
         <div className="w-full">
           <div className="block mt-8 min-[410px]:flex min-[410px]:flex-row justify-center md:justify-end items-center mb-3">
             <div className="flex items-center justify-center gap-3">
