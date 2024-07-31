@@ -38,7 +38,7 @@ export default async function ProductReels({
       {/* Nothing to show message */}
       {products && !products.length && (
         <div className="w-full h-[calc(100vh-150px)] flex items-center justify-center">
-          <h1 className="text-4xl font-bold text-center mb-14 dark:text-muted text-stone-950/50">
+          <h1 className="text-2xl sm:text-4xl font-bold text-center mb-14 dark:text-muted-foreground text-stone-950/50">
             Nothing to show
           </h1>
         </div>

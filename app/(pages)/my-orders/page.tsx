@@ -19,20 +19,16 @@ export default async function MyOrdersPage({}: MyOrdersPageProps) {
   return (
     <MaxWidthWrapper className="max-w-7xl">
       <div className="py-24">
-        <div className="mx-auto">
-          <div className="max-w-xl">
-            <Title>Order history</Title>
-            <p className="text-sm text-muted-foreground">
-              Check the status of recent orders, manage returns, and download
-              invoices.
-            </p>
-          </div>
-          {userOrder && userOrder.length !== 0 ? (
-            <OrderHistoryList orders={userOrder} />
-          ) : (
-            <EmptyOrderHistory />
-          )}
-        </div>
+        <Title>Order history</Title>
+        <p className="text-sm text-muted-foreground">
+          Check the status of recent orders, manage returns, and download
+          invoices.
+        </p>
+        {userOrder && userOrder.length !== 0 ? (
+          <OrderHistoryList orders={userOrder} />
+        ) : (
+          <EmptyOrderHistory />
+        )}
       </div>
     </MaxWidthWrapper>
   )

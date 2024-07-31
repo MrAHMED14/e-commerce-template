@@ -9,7 +9,7 @@ import Navbar from "@/components/navbar/navbar"
 
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+export const inter = Inter({ subsets: ["latin"], display: "swap" })
 
 // TODO:
 // Change the Metadata
