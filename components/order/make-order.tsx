@@ -1,7 +1,12 @@
 "use client"
 
 import { ShoppingCart } from "@/lib/types/cart"
-import { orderFormSchema, OrderFormValues } from "@/lib/utils"
+import {
+  formatFloatNumber,
+  formatUSD,
+  orderFormSchema,
+  OrderFormValues,
+} from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTransition } from "react"
 import { useForm } from "react-hook-form"
@@ -233,7 +238,7 @@ export default function MakeOrder({ cart, userId, userEmail }: MakeOrderProps) {
                       Original price
                     </dt>
                     <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      ${cart.subtotal}
+                      {formatUSD(formatFloatNumber(cart.subtotal))}
                     </dd>
                   </dl>
 
@@ -242,7 +247,7 @@ export default function MakeOrder({ cart, userId, userEmail }: MakeOrderProps) {
                       Savings
                     </dt>
                     <dd className="text-base font-medium text-green-600">
-                      -$0.00
+                      -{formatUSD(formatFloatNumber(0))}
                     </dd>
                   </dl>
                 </div>
@@ -252,7 +257,7 @@ export default function MakeOrder({ cart, userId, userEmail }: MakeOrderProps) {
                     Total
                   </dt>
                   <dd className="text-base font-bold text-gray-900 dark:text-white">
-                    ${cart.subtotal}
+                    {formatUSD(formatFloatNumber(cart.subtotal))}
                   </dd>
                 </dl>
               </div>

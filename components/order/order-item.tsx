@@ -1,4 +1,5 @@
 import { CartItemWithProduct } from "@/lib/types/cart"
+import { formatUSD } from "@/lib/utils"
 import Link from "next/link"
 
 interface OrderItemProps {
@@ -27,7 +28,7 @@ export default function OrderItem({
           <span>x{quantity}</span>
           <div className="text-end md:order-4 md:w-32">
             <p className="text-base font-bold text-gray-900 dark:text-white">
-              ${price}
+              {formatUSD(price)}
             </p>
           </div>
         </div>

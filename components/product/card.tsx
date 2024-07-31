@@ -1,5 +1,5 @@
 import { Product } from "@prisma/client"
-import { cn } from "@/lib/utils"
+import { cn, formatFloatNumber, formatUSD } from "@/lib/utils"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -46,10 +46,10 @@ export default function ProductCard({
           <div className="w-full h-full flex flex-col justify-end px-4 pb-3 mt-2">
             {/* Orginal price */}
             <p className="text-muted-foreground text-sm font-semibold line-through leading-none">
-              {Math.ceil(price + 260)} Da
+              {formatUSD(formatFloatNumber(price + 390))}
             </p>
             {/* Price after discount */}
-            <p className="text-slate-950 font-bold">{Math.ceil(price)} Da</p>
+            <p className="text-slate-950 font-bold">{formatUSD(price)}</p>
           </div>
         </div>
       </div>

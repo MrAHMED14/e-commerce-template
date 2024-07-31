@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "lucide-react"
 import { getCart } from "@/lib/actions/cart/lib"
 import EmptyCart from "./empty-cart"
 import ResetCart from "./reset-cart"
+import { formatFloatNumber, formatUSD } from "@/lib/utils"
 
 interface CartListProps {}
 
@@ -41,7 +42,7 @@ export default async function CartList({}: CartListProps) {
                       Original price
                     </dt>
                     <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      ${cart.subtotal}
+                      {formatUSD(formatFloatNumber(cart.subtotal))}
                     </dd>
                   </dl>
 
@@ -50,7 +51,7 @@ export default async function CartList({}: CartListProps) {
                       Savings
                     </dt>
                     <dd className="text-base font-medium text-green-600">
-                      -$0.00
+                      -{formatUSD(formatFloatNumber(0.0))}
                     </dd>
                   </dl>
                 </div>
@@ -60,7 +61,7 @@ export default async function CartList({}: CartListProps) {
                     Total
                   </dt>
                   <dd className="text-base font-bold text-gray-900 dark:text-white">
-                    ${cart.subtotal}
+                    {formatUSD(formatFloatNumber(cart.subtotal))}
                   </dd>
                 </dl>
               </div>
@@ -78,7 +79,6 @@ export default async function CartList({}: CartListProps) {
                 </span>
                 <Link
                   href="/shop"
-                  title=""
                   className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                 >
                   continue shopping

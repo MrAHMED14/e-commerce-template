@@ -2,6 +2,7 @@ import { CartItemWithProduct } from "@/lib/types/cart"
 import Link from "next/link"
 import QuantityControl from "./quantity-control"
 import RemoveItem from "./remove-item"
+import { formatUSD } from "@/lib/utils"
 
 interface CartItemProps {
   cartItem: CartItemWithProduct
@@ -31,7 +32,7 @@ export default function CartItem({
 
           <div className="text-end md:order-4 md:w-32">
             <p className="text-base font-bold text-gray-900 dark:text-white">
-              ${price}
+              {formatUSD(price)}
             </p>
           </div>
         </div>

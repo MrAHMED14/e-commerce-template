@@ -1,7 +1,8 @@
-import AddToCart from "@/components/cart/add-to-cart"
-import { capitalize } from "@/lib/utils"
-import { Product } from "@prisma/client"
+import { capitalize, formatUSD } from "@/lib/utils"
 import { HeartIcon } from "lucide-react"
+import { Product } from "@prisma/client"
+
+import AddToCart from "@/components/cart/add-to-cart"
 
 interface ProductInfoProps {
   product: Product
@@ -20,7 +21,7 @@ export default function ProductInfo({
         <h2 className="sr-only">Product information</h2>
 
         <p className="text-xl font-semibold bg-muted px-4 py-2 rounded w-fit">
-          {price} <span className="text-base opacity-60">Da</span>
+          {formatUSD(price)}
         </p>
       </div>
 
