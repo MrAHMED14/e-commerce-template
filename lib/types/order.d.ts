@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client"
 import { ShoppingCart } from "./cart"
 
 export interface Address {
@@ -12,4 +13,24 @@ export interface OrderRequest {
   userId: string
   order: ShoppingCart
   address: Address
+}
+
+export type OrderWithProduct = Prisma.OrderGetPayload<{
+  include: {
+    items: {
+      include: {
+        product: true
+      }
+    }
+  }
+}>
+
+export type OrderProductWithQuantity = Prisma.OrderItemGetPayload<{
+  include: {
+    product: true
+  }
+}>
+
+export type OrderHistory = OrderWithProduct & {
+  size: number
 }

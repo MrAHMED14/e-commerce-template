@@ -79,3 +79,28 @@ export async function createOrder(orderRequest: OrderRequest) {
     throw error
   }
 }
+
+export async function getUserOrder(userId: string) {
+  try {
+    if (!userId) throw new Error("User not found.")
+    const userOrder = await prisma.order.findMany({
+      where: { userId },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    })
+
+    if (!userOrder) return null
+
+    revalidatePath("/my-orders")
+    return userOrder
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
