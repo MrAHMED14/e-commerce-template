@@ -50,6 +50,52 @@ export function capitalize(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
+export function formatFloatNumber(num: number) {
+  // Ensure num is a number
+  if (typeof num !== "number" || isNaN(num)) {
+    throw new Error("Input must be a valid number")
+  }
+
+  // Round to two decimal places and convert back to number
+  return parseFloat(num.toFixed(2))
+}
+
+export function formatUSD(number: number) {
+  const formattedNumber = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+  }).format(number)
+  // .replace(/,/g, " ")
+
+  return formattedNumber
+}
+
+export function formatDZD(number: number) {
+  const formattedNumber = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "DZD",
+    minimumFractionDigits: 0,
+  })
+    .format(number)
+    .replace(/,/g, " ")
+
+  const formattedDZD = formattedNumber.replace("DZD", "") + " DA"
+
+  return formattedDZD
+}
+
+export function formatteDate(date: Date) {
+  if (!date) throw new Error("Date not found.")
+
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+  return formattedDate
+}
+
 // ================================================
 
 // ================================================
