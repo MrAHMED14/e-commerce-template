@@ -7,7 +7,7 @@ const navigation = {
   main: [
     { name: "Home", href: "/" },
     { name: "Shop", href: "/shop" },
-    { name: "Cart", href: "/cart" },
+    { name: "Cart", href: "/shop/cart" },
     { name: "Terms", href: "#" },
     { name: "Privacy Policy", href: "#" },
     { name: "Conditions of Use", href: "#" },
