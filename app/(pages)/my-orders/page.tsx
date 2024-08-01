@@ -1,15 +1,16 @@
-import MaxWidthWrapper from "@/components/global/max-width-wrapper"
-import EmptyOrderHistory from "@/components/order-history/empty-order-history"
-import OrderHistoryList from "@/components/order-history/order-history-list"
-import Title from "@/components/ui/title"
-import { validateRequest } from "@/lib/actions/auth/auth"
 import { getUserOrder } from "@/lib/actions/order/action"
 import { redirect } from "next/navigation"
+
+import EmptyOrderHistory from "@/components/order-history/empty-order-history"
+import OrderHistoryList from "@/components/order-history/order-history-list"
+import MaxWidthWrapper from "@/components/global/max-width-wrapper"
+import Title from "@/components/ui/title"
+import { getUser } from "@/lib/actions/auth/action"
 
 interface MyOrdersPageProps {}
 
 export default async function MyOrdersPage({}: MyOrdersPageProps) {
-  const { user } = await validateRequest()
+  const user = await getUser()
   if (!user) {
     redirect("/login")
   }

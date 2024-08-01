@@ -104,7 +104,6 @@ export function Menu({
   cartSize: number
 }) {
   const pathname = usePathname()
-  const userRole = null
   return (
     <div className={cn(className)}>
       <Link
@@ -154,17 +153,6 @@ export function Menu({
         )}
       >
         My Orders
-      </Link>
-
-      <Link
-        href={"/dashboard"}
-        className={cn(
-          pathname === "/dashboard"
-            ? "text-stone-950 dark:text-white font-semibold"
-            : "text-muted-foreground"
-        )}
-      >
-        Dashboard
       </Link>
     </div>
   )

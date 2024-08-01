@@ -1,13 +1,13 @@
 import { CartWithProducts, ShoppingCart } from "@/lib/types/cart"
-import { validateRequest } from "../auth/auth"
 import { Cart, CartItem } from "@prisma/client"
 import { cookies } from "next/headers"
 
 import prisma from "@/lib/db/prisma"
 import { revalidatePath } from "next/cache"
+import { getUser } from "../auth/action"
 
 export async function getCart(): Promise<ShoppingCart | null> {
-  const { user } = await validateRequest()
+  const user = await getUser()
 
   let cart: CartWithProducts | null = null
 
@@ -42,7 +42,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
 }
 
 export async function createCart(): Promise<ShoppingCart> {
-  const { user } = await validateRequest()
+  const user = await getUser()
 
   let newCart: Cart
 

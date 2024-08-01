@@ -5,11 +5,12 @@ import MenuItems from "@/components/navbar/menu-items"
 import Search from "@/components/filter/search"
 import Link from "next/link"
 import { getCart } from "@/lib/actions/cart/lib"
+import { getUser } from "@/lib/actions/auth/action"
 
 interface NavbarProps {}
 
 export default async function Navbar({}: NavbarProps) {
-  const { user } = await validateRequest()
+  const user = await getUser()
   const cart = await getCart()
 
   return (

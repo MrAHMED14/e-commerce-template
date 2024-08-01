@@ -18,12 +18,14 @@ export default function ProductImageGallery({
             alt=""
             className="w-24 h-24 aspect-square object-center object-cover rounded-md border border-black"
           />
+
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg"
             alt=""
             className="w-24 h-24 aspect-square object-center object-cover rounded-md border border-black"
           />
+
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg"
