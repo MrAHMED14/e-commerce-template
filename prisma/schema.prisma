@@ -9,13 +9,19 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+enum userRole {
+  ADMIN
+  USER
+}
+
 model User {
-  id           String  @id
-  username     String  @unique
+  id           String   @id
+  username     String   @unique
   displayName  String
-  email        String? @unique
+  role         userRole @default(USER)
+  email        String?  @unique
   passwordHash String?
-  googleId     String? @unique
+  googleId     String?  @unique
   avatarUrl    String?
 
   orders    Order[]
@@ -26,7 +32,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  @@map("users")
+  // @@map("users")
 }
 
 model Session {
@@ -36,7 +42,7 @@ model Session {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("sessions")
+  // @@map("sessions")
 }
 
 model Address {
@@ -50,9 +56,9 @@ model Address {
   user   User   @relation(fields: [userId], references: [id])
 
   orders Order[]
+  // @@map("addresses")
 
   @@index([userId])
-  @@map("addresses")
 }
 
 model Order {
@@ -69,9 +75,9 @@ model Order {
   user   User   @relation(fields: [userId], references: [id])
 
   items OrderItem[]
+  // @@map("orders")
 
   @@index([userId])
-  @@map("orders")
 }
 
 model OrderItem {
@@ -86,11 +92,11 @@ model OrderItem {
 
   productId String
   product   Product @relation(fields: [productId], references: [id])
+  // @@map("orders_items")
 
   @@unique([orderId, productId])
   @@index([orderId])
   @@index([productId])
-  @@map("orders_items")
 }
 
 model Cart {
@@ -104,7 +110,7 @@ model Cart {
 
   items CartItem[]
 
-  @@map("carts")
+  // @@map("carts")
 }
 
 model CartItem {
@@ -120,10 +126,11 @@ model CartItem {
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
+  // @@map("carts_items")
+
   @@unique([cartId, productId])
   @@index([cartId])
   @@index([productId])
-  @@map("carts_items")
 }
 
 model Product {
@@ -143,8 +150,9 @@ model Product {
   subcategoryId String
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
 
+  // @@map("products")
+
   @@index([subcategoryId])
-  @@map("products")
 }
 
 model Subcategory {
@@ -159,8 +167,9 @@ model Subcategory {
   mainCategoryId String
   mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id])
 
+  // @@map("sub_categories")
+
   @@index([mainCategoryId])
-  @@map("sub_categories")
 }
 
 model MainCategory {
@@ -172,5 +181,5 @@ model MainCategory {
 
   subcategories Subcategory[]
 
-  @@map("main_categories")
+  // @@map("main_categories")
 }
